@@ -77,7 +77,6 @@ dotnet tool install --global dotnet-ef
    }
    ```
 
-   O `appsettings.json` está no `.gitignore`. Não envie credenciais ou outras informações sensíveis para o repositório.
 
 4. Aplique as migrações:
 
