@@ -7,19 +7,9 @@
 
     <div class="container-xxl">
         <div class="row g-4">
-            @foreach (var lanche in Model.Lanches)
+            @foreach (var lanche in Model.Lanches!)
             {
-                <div class="col-12 col-sm-2 col-md-2">
-                    <div class="h-100">
-                        <img src="@lanche.ImagemUrl" class="card-img-top img-fluid" alt="Imagem do @lanche.Nome">
-
-                        <div class="card-body">
-                            <h4 class="card-title">@lanche.Nome</h4>
-                            <h5>Preço: @lanche.Preco.ToString("C")</h5>
-                            <p>@lanche.DescricaoCurta</p>
-                        </div>
-                    </div>
-                </div>
+                <partial name="_LanchesResumo" for="@lanche" />
             }
         </div>
     </div>

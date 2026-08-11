@@ -3,8 +3,8 @@ using System;
 using MacBurgers.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -18,27 +18,52 @@ namespace MacBurgers.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "10.0.10")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("MacBurgers.Models.CarrinhoCompraItem", b =>
+                {
+                    b.Property<int>("CarrinhoCompraItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CarrinhoCompraItemId"));
+
+                    b.Property<string>("CarrinhoCompraId")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int?>("LancheId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("integer");
+
+                    b.HasKey("CarrinhoCompraItemId");
+
+                    b.HasIndex("LancheId");
+
+                    b.ToTable("CarrinhoCompraItens");
+                });
 
             modelBuilder.Entity("MacBurgers.Models.Categoria", b =>
                 {
                     b.Property<int>("CategoriaId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoriaId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CategoriaId"));
 
                     b.Property<string>("CategoriaName")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("character varying(200)");
 
                     b.HasKey("CategoriaId");
 
@@ -49,47 +74,47 @@ namespace MacBurgers.Migrations
                 {
                     b.Property<int>("LancheId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LancheId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("LancheId"));
 
                     b.Property<DateTime>("Atualizacao")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("CategoriaId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("DataDeCricao")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("DescricaoCurta")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("DescricaoDetalhada")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("character varying(200)");
 
-                    b.Property<bool?>("EmEstoque")
-                        .HasColumnType("bit");
+                    b.Property<bool>("EmEstoque")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("ImagemThubnailUrl")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("character varying(255)");
 
                     b.Property<string>("ImagemUrl")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("character varying(255)");
 
-                    b.Property<bool?>("IsLanchePreferido")
-                        .HasColumnType("bit");
+                    b.Property<bool>("IsLanchePreferido")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<decimal>("Preco")
                         .HasColumnType("decimal(10,2)");
@@ -99,6 +124,15 @@ namespace MacBurgers.Migrations
                     b.HasIndex("CategoriaId");
 
                     b.ToTable("Lanches");
+                });
+
+            modelBuilder.Entity("MacBurgers.Models.CarrinhoCompraItem", b =>
+                {
+                    b.HasOne("MacBurgers.Models.Lanche", "Lanche")
+                        .WithMany()
+                        .HasForeignKey("LancheId");
+
+                    b.Navigation("Lanche");
                 });
 
             modelBuilder.Entity("MacBurgers.Models.Lanche", b =>

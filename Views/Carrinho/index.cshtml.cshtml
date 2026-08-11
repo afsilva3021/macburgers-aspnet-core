@@ -1,0 +1,51 @@
+@model CarrinhoCompraViewModel
+
+<div class="container">
+    <div class="row">
+        <i class="bi bi-cart4" style="font-size: 2rem;"></i>
+
+        <div class="col-md-12">
+            <h4>Seu carrinho de compras</h4>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th class="text-right">Preço</th>
+                    <th class="text-right">Subtotal</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CarrinhoCompra.CarrinhoCompraItems)
+                {
+                    <tr>
+                        <td class="text-right">@item.Quantidade</td>
+                        <td class="text-center">@item.Lanche.Nome</td>
+                        <td class="text-right">@item.Lanche.Preco.ToString("C")</td>
+                        <td class="text-right">@(item.Quantidade * item.Lanche.Preco).ToString("C")</td>
+                        
+                        <td class="text-center">
+                            <a asp-action="RemoverItemDoCarrinhoCompra" asp-route-lancheId="@item.Lanche.LancheId" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i>Remover</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-right"><strong>Total:</strong></td>
+                    <td class="text-right">@Model.CarrinhoCompraTotal.ToString("C")</td>
+                    <td></td>
+                </tr>
+        </table>
+        <div class="text-right">
+            <div class="btn-group">
+                <a asp-action="FinalizarPedido" class="btn btn-success"><i class="bi bi-check-circle"></i> Finalizar Pedido</a>
+                &nbsp;&nbsp;&nbsp;
+                <a class="btn btn-primary" asp-controller="Lanche" asp-action="List"><i class="bi bi-trash"></i>Continuar Comprando</a>
+            </div>
+        </div>
+    </div>
+</div>

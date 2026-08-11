@@ -1,10 +1,11 @@
 ﻿using MacBurgers.Context;
+using MacBurgers.Models;
 using MacBurgers.Repositories;
 using MacBurgers.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace MacBurgers;
-public class Startup
+public class Startup    
 {
     public Startup(IConfiguration configuration)
     {
@@ -18,12 +19,17 @@ public class Startup
     {
         services.AddDbContext<AppDbContext>(Options =>
         
-            Options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            Options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddTransient<ILanchesRepository, LanchesRepository>();
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped(sp => CarrinhoCompra.GetCarrinhoCompra(sp));
         
         services.AddControllersWithViews();
+
+        services.AddMemoryCache();
+        services.AddSession();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +49,7 @@ public class Startup
         app.UseStaticFiles();
 
         app.UseRouting();
+        app.UseSession();
 
         app.UseAuthorization();
 
