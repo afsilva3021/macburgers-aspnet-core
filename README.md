@@ -1,6 +1,6 @@
 # MacBurgers
 
-Aplicação web de uma lanchonete desenvolvida com ASP.NET Core MVC. O projeto apresenta um catálogo de lanches organizado por categorias, com persistência no SQL Server por meio do Entity Framework Core.
+Aplicação web de uma lanchonete desenvolvida com ASP.NET Core MVC. O projeto apresenta um catálogo de lanches organizado por categorias, com persistência no PostgreSQL por meio do Entity Framework Core.
 
 ## Funcionalidades
 
@@ -16,7 +16,7 @@ Aplicação web de uma lanchonete desenvolvida com ASP.NET Core MVC. O projeto a
 - .NET 10
 - ASP.NET Core MVC
 - Entity Framework Core 10
-- SQL Server
+- PostgreSQL
 - Razor Views
 - Bootstrap e jQuery
 
