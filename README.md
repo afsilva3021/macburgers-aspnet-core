@@ -38,7 +38,7 @@ wwwroot/        CSS, JavaScript, imagens e bibliotecas do frontend
 Para executar o projeto, instale:
 
 - [.NET SDK 10](https://dotnet.microsoft.com/download/dotnet/10.0)
-- SQL Server ou SQL Server Express
+- PostgreSQL
 - Entity Framework Core CLI, caso ainda não esteja instalado
 
 ```powershell
